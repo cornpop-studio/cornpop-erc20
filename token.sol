@@ -3,6 +3,7 @@
 pragma solidity ^0.8.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.0.0/contracts/token/ERC20/ERC20.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.1/contracts/utils/math/SafeMath.sol";
 
 /**
  * @dev Implementation of the {ERC20} contract.
@@ -41,11 +42,11 @@ contract CornPop is ERC20 {
      *
       * Requirements:
      *
-     * - `sender` must be equal to the owner saved in the constructor
+     * - `sender` must be the owner saved in the constructor
     */
     modifier onlyOwner{
-        require(msg.sender == owner);
-        _;
+        require(msg.sender == owner, "Ownable: caller is not the owner");
+    _;
     }
 
     /**
@@ -58,6 +59,6 @@ contract CornPop is ERC20 {
      * - `_icoAddress` cannot be the zero address.
      */
     function fundICO(address _icoAddress) public onlyOwner {
-        transfer(_icoAddress, 50000000);
+        transfer(_icoAddress, 50000000 * (10 ** uint256(decimals())));
     }
 }
